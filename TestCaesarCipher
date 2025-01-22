@@ -1,0 +1,61 @@
+/**
+ * Write a description of TestCaesarCipher here.
+ * 
+ * @author (your name) 
+ * @version (a version number or a date)
+ */
+import edu.duke.*;
+
+public class TestCaesarCipher {
+    public int[] countLetters(String message) {
+            String alph = "abcdefghijklmnopqrstuvwxyz";
+            int[] counts = new int[26];
+            for(int k = 0; k < message.length(); k++) {
+                char ch = Character.toLowerCase(message.charAt(k));
+                int index = alph.indexOf(ch);
+                if (index!= -1) {
+                    counts[index] += 1;
+                }
+            }
+            return counts;
+        }
+    public int indexOfMax(int values[]) {
+        int index = 0;
+        for(int i = 0; i < values.length; i++) {
+            if(values[i] > values[index]) {
+                index = i;
+            }
+        }
+    return index ;
+}  
+    public void breakCaesarCipher(String input) {
+         
+         int[] freqs = countLetters(input);
+         int maxDex = indexOfMax(freqs);
+         //System.out.println("The max index is " + maxDex);
+         int dkey = maxDex - 4;
+         if (maxDex < 4) {
+           dkey = 26 - (4 - maxDex);
+         }
+         //System.out.println("The decrypt key is " + dkey);
+         CeasarCipher cc = new CeasarCipher(26 - dkey);
+         System.out.println(cc.encrypt(input));
+    
+    
+    }
+    public void simpleTests () {
+       FileResource fr = new FileResource("wordsLotsOfEs.txt");
+       String message = fr.asString();
+       //System.out.println("message is " + message);
+       CeasarCipher cc = new CeasarCipher(18);
+       
+       String encrypted = cc.encrypt(message);
+       //System.out.println("message is " + encrypted);
+       
+       //CeasarCipher c1 = new CeasarCipher(8);
+       //String decrypted = c1.encrypt(encrypted);
+       //System.out.println("message is now " + decrypted);
+       breakCaesarCipher(encrypted);
+       
+    }
+}
