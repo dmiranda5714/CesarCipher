@@ -1,0 +1,93 @@
+
+/**
+ * Write a description of TestCaesarCipherTwo here.
+ * 
+ * @author (your name) 
+ * @version (a version number or a date)
+ */
+
+import edu.duke.*;
+
+public class TestCaesarCipherTwo {
+    public String halfOfString(String message, int start) {
+    
+        String answer = "";
+        for(int k = start; k < message.length(); k+=2) {
+        answer = answer + message.charAt(k);
+        }
+    return answer;
+    }
+    
+    public int indexOfMax(int values[]) {
+        int index = 0;
+        for(int i = 0; i < values.length; i++) {
+            if(values[i] > values[index]) {
+                index = i;
+            }
+        }
+    return index ;
+}
+    public int getKey(String s) {
+    
+    //CeasarCipher cc = new CeasarCipher();
+    int[] freqs = countLetters(s);
+    int maxDex = indexOfMax(freqs);
+    //System.out.println("The max Index is " + maxDex);
+    int dkey = maxDex - 4;
+    
+         if (maxDex < 4) {
+           dkey = 26 - (4 - maxDex);
+         }
+    //System.out.println("The decrypt key is " + dkey);
+    return dkey;
+    }
+    
+   public int[] countLetters(String message) {
+            String alph = "abcdefghijklmnopqrstuvwxyz";
+            int[] counts = new int[26];
+            for(int k = 0; k < message.length(); k++) {
+                char ch = Character.toLowerCase(message.charAt(k));
+                int index = alph.indexOf(ch);
+                if (index!= -1) {
+                    counts[index] += 1;
+                }
+            }
+            return counts;
+        }
+    
+    // public void breakCaesarCipher(String input) {
+         
+         // int[] freqs = countLetters(input);
+         // int maxDex = indexOfMax(freqs);
+         // //System.out.println("The max index is " + maxDex);
+         // int dkey = maxDex - 4;
+         // if (maxDex < 4) {
+           // dkey = 26 - (4 - maxDex);
+         // }
+         // //System.out.println("The decrypt key is " + dkey);
+         // CaesarCipherTwo cc = new CaesarCipherTwo(26 - dkey);
+         // System.out.println(cc.encrypt(input));
+    
+    
+    // }
+    
+   public void simpleTests() {
+   FileResource fr = new FileResource();
+   String message = fr.asString();
+   //CaesarCipherTwo cc2 = new CaesarCipherTwo(15,10);
+   //String encrypted = cc2.encrypt(message);
+   //System.out.println("The encrypted message is : " + encrypted);
+   //String encrypted = "Aal uttx hm aal Qtct Fhljha pl Wbdl. Pvxvxlx!";
+   String firstString = halfOfString(message, 0);
+   String secondString = halfOfString(message, 1);
+   
+   int dkey1 = getKey(firstString);
+   int dkey2 = getKey(secondString);
+   System.out.println("First key is " + dkey1 + "second key is " + dkey2);
+   
+   //CaesarCipherTwo cc3 = new CaesarCipherTwo(26-dkey1,26-dkey2);
+   //String decrypted = cc3.encrypt(message);
+   //System.out.println("The decrypted message is : " + decrypted);
+       
+    }
+}
