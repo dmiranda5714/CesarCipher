@@ -1,0 +1,129 @@
+/**
+ * Write a description of CesarCipher here.
+ * 
+ * @author (your name) 
+ * @version (a version number or a date)
+ */
+
+import edu.duke.*;
+
+public class CeasarCipher {
+    
+    private String upperAlphabet; 
+    private String lowerAlphabet;
+    private String lowerShiftedAlphabet;
+    private String upperShiftedAlphabet;
+    private int mainKey;
+    
+    public CeasarCipher(int key) {
+    upperAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    lowerAlphabet = "abcdefghijklmnopqrstuvwxyz";
+    
+    upperShiftedAlphabet = upperAlphabet.substring(key) + upperAlphabet.substring(0,key);
+    lowerShiftedAlphabet = lowerAlphabet.substring(key) + lowerAlphabet.substring(0,key);
+    mainKey = key;
+    
+    }
+    public String encrypt (String input) {
+    
+        StringBuilder sb = new StringBuilder(input);
+        for (int i = 0; i < sb.length(); i++) {
+        
+        char c = sb.charAt(i);
+        
+            if(Character.isUpperCase(c)) {
+                int idx = upperAlphabet.indexOf(c);
+                if(idx != -1) {
+                c = upperShiftedAlphabet.charAt(idx);
+            
+                sb.setCharAt(i, c);}
+            }
+            if(Character.isLowerCase(c)) {
+                int idx = lowerAlphabet.indexOf(c);
+                if(idx != -1) {
+                c = lowerShiftedAlphabet.charAt(idx);
+            
+                sb.setCharAt(i, c);}
+            }
+        
+        }
+        return sb.toString(); 
+    }
+    
+    public String encryptTwoKeys(String input, int key1, int key2) {
+    
+        StringBuilder encryptTwoKeys = new StringBuilder(input);
+        String upperCaseAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String lowerCaseAlphabet = "abcdefghijklmnopqrstuvwxyz";
+        
+        String fUpperShiftedAlphabet = upperCaseAlphabet.substring(key1) + upperCaseAlphabet.substring(0, key1);
+        String sUpperShiftedAlphabet = upperCaseAlphabet.substring(key2) + upperCaseAlphabet.substring(0, key2);
+        
+        String flowerShiftedAlphabet = lowerCaseAlphabet.substring(key1) + lowerCaseAlphabet.substring(0, key1);
+        String slowerShiftedAlphabet = lowerCaseAlphabet.substring(key2) + lowerCaseAlphabet.substring(0, key2);
+        
+        for(int i = 0; i < encryptTwoKeys.length(); i++) {
+        
+            char currChar = encryptTwoKeys.charAt(i);
+            
+            if(i%2 == 0 && Character.isUpperCase(currChar)) {
+                int idx = upperCaseAlphabet.indexOf(currChar);
+                if (idx != -1) {
+                    //System.out.println("current char is " + currChar + " switching using uppercase key1");
+                    char newChar = fUpperShiftedAlphabet.charAt(idx);
+                    encryptTwoKeys.setCharAt(i, newChar);
+                }
+        
+            }
+            if(i%2 == 0 && Character.isLowerCase(currChar)) {
+                int idx = lowerCaseAlphabet.indexOf(currChar);
+                if (idx != -1) {
+                    //System.out.println("current char is " + currChar + " switching using lowercase key1");
+                    char newChar = flowerShiftedAlphabet.charAt(idx);
+                    encryptTwoKeys.setCharAt(i, newChar);
+                }
+        
+            }
+            if(i%2 == 1 && Character.isUpperCase(currChar)) {
+                int idx = upperCaseAlphabet.indexOf(currChar);
+                if (idx != -1) {
+                    //System.out.println("current char is " + currChar + " switching using uppercase key2");
+                    char newChar = sUpperShiftedAlphabet.charAt(idx);
+                    encryptTwoKeys.setCharAt(i, newChar);
+                }
+        
+            }
+            if(i%2 == 1 && Character.isLowerCase(currChar)) {
+                int idx = lowerCaseAlphabet.indexOf(currChar);
+                if (idx != -1) {
+                    //System.out.println("current char is " + currChar + " switching using lowercase key2");
+                    char newChar = slowerShiftedAlphabet.charAt(idx);
+                    encryptTwoKeys.setCharAt(i, newChar);
+                }
+        
+            }
+            
+        }
+        
+    return encryptTwoKeys.toString();
+    }
+   
+    // public String decrypt(String input) {
+        // CeasarCipher c1 = new CeasarCipher(8);
+        // String decrypted = c1.encrypt(input);
+        // return decrypted;
+    // }
+    
+    public void testCesar() {
+    //int key = 15;
+    //FileResource fr = new FileResource("wordsLotsOfEs.txt");
+    String message = "Can you imagine life WITHOUT the internet AND computers in your pocket?";//fr.asString();
+    CeasarCipher cc = new CeasarCipher(15);
+    String encrypted = cc.encrypt(message);
+    System.out.println(encrypted);
+    //String decrypted = cc.encrypt(encrypted);
+    //System.out.println(decrypted);
+    String answer = encryptTwoKeys(message, 21,8);
+    System.out.println(answer);
+    }
+}
